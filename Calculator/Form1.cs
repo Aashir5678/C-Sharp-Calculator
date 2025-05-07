@@ -20,7 +20,7 @@ namespace Calculator
         private List<int> nums;
         private List<char> symbols;
         private bool negative = false;
-        private int? result; // Question mark indicates it can be null has returns false when result.HasValue
+        private int? result; // Question mark indicates the value for result can be an integer or null
         private readonly char[] SYMBOLS = new char[] { 'x', '/', '+', '-'};
         public Form1()
         {
@@ -30,19 +30,21 @@ namespace Calculator
 
         private void button1_Click(object sender, EventArgs e) 
         { 
+            // Clear the textbox if there is only a 0 in the calculator or in case of an error before adding the digit
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
-        
+
+
             textBox1.AppendText("1");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -52,7 +54,7 @@ namespace Calculator
         private void button3_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -63,7 +65,7 @@ namespace Calculator
         private void button8_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -74,7 +76,7 @@ namespace Calculator
         private void button6_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -85,7 +87,14 @@ namespace Calculator
         // Add button
         private void button4_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
+
+            if (textBox1.Text.Equals("Error"))
+            {
+                textBox1.Clear();
+            }
+
+            // If there is only one entry, or the last entry in the calculator wasn't a symbol, then add the new symbol
+            if (textBox1.Text.Length == 1 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
             {
                 textBox1.AppendText("+");
             }
@@ -94,7 +103,7 @@ namespace Calculator
         private void button9_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -106,11 +115,21 @@ namespace Calculator
         // Equals button
         private void button9_Click_1(object sender, EventArgs e)
         {
-            String toCalculate = textBox1.Text;
+            toCalculate = textBox1.Text;
             result = calculate(toCalculate);
 
             textBox1.Clear();
-            textBox1.AppendText(result.ToString());
+
+            if (result == null)
+            {
+                textBox1.AppendText("Error");
+            }
+
+            else
+            {
+                textBox1.AppendText(result.ToString());
+            }
+                
 
         }
 
@@ -127,7 +146,13 @@ namespace Calculator
         // Multiply button
         private void button13_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
+
+            if (textBox1.Text.Equals("Error"))
+            {
+                textBox1.Clear();
+            }
+
+            if (textBox1.Text.Length == 1 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
             {
                 textBox1.AppendText("x");
             }
@@ -136,7 +161,13 @@ namespace Calculator
         // Divide button
         private void button16_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length == 0 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
+
+            if (textBox1.Text.Equals("Error"))
+            {
+                textBox1.Clear();
+            }
+
+            if (textBox1.Text.Length == 1 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
             {
                 textBox1.AppendText("/");
             }
@@ -146,7 +177,7 @@ namespace Calculator
         private void button7_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -158,7 +189,7 @@ namespace Calculator
         private void button12_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -171,7 +202,7 @@ namespace Calculator
         private void button11_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -183,7 +214,7 @@ namespace Calculator
         private void button14_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -195,7 +226,7 @@ namespace Calculator
         private void button10_Click(object sender, EventArgs e)
         {
 
-            if (textBox1.Text.Length == 1 && textBox1.Text.Equals("0"))
+            if (textBox1.Text.Equals("0") || textBox1.Text.Equals("Error"))
             {
                 textBox1.Clear();
             }
@@ -206,6 +237,10 @@ namespace Calculator
         // Subtract button
         private void button5_Click(object sender, EventArgs e)
         {
+            if (textBox1.Text.Equals("Error") || textBox1.Text.Equals("0"))
+            {
+                textBox1.Clear();
+            }
             
 
             if (textBox1.Text.Length == 0 || !SYMBOLS.Contains(textBox1.Text.ElementAt(textBox1.Text.Length - 1)))
@@ -232,24 +267,51 @@ namespace Calculator
 
             foreach (char c in input) {
                 parsed = int.TryParse(char.ToString(c), out num);
+
+                // If c can be parsed as an integer
                 if (parsed)
                 {
                     numStr += c;
                 }
 
-                else if (numStr.Length != 0 && SYMBOLS.Contains(c))
+                // If first number is negative or we are past the first number and the c is a symbol
+                else if ((numStr.Length == 0 && c == '-') || numStr.Length != 0 && SYMBOLS.Contains(c))
                 {
+
+                    if (numStr.Length != 0)
+                    {
+                        nums.Add(int.Parse(numStr));
+                    }
+
+                    // Keep all other symbols as is
+                    if (c != '-')
+                    {
+
+                        symbols.Add(c);
+                        numStr = "";
+                    }
+
+                    // Treat subtraction as addition with a negative number (5 - 5 = 5 + -5)
+                    else
+                    {
+                        if (numStr.Length == 0)
+                        {
+                            nums.Add(0); // If first number in calculator is negative, perform 0 + -firstNum to avoid error
+                        }
+
+                        symbols.Add('+');
+
+                        numStr = "-";
+
+                    }
+
                     
-                    nums.Add(int.Parse(numStr));
-                    symbols.Add(c);
-                    
-                    numStr = "";
 
                 }
 
             }
 
-            if (numStr.Length != 0)
+            if (numStr.Length != 0) // Check if there is any remaining integers in the string
             {
 
                 parsed = int.TryParse(numStr, out num);
@@ -263,24 +325,20 @@ namespace Calculator
 
         }
 
-        private int calculate(String input)
+        private int? calculate(String input)
         {
 
             parseCalculations(input);
+
             //foreach (int i in nums)
             //{
             //    Console.WriteLine(i);
             //}
-
             //foreach (char c in symbols)
             //{
             //    Console.WriteLine(c);
             //}
 
-            if (nums.ToArray().Length - 1 != symbols.ToArray().Length)
-            {
-                return -1;
-            }
 
             if (nums.ToArray().Length == 2)
             {
@@ -289,7 +347,8 @@ namespace Calculator
 
             int index = 0;
             int num;
-            int result = 0;
+            int? result = 0;
+            
 
             foreach (char c in symbols)
             {
@@ -307,48 +366,49 @@ namespace Calculator
                     index++;
                 }
 
-                if (result == -1)
+                
+
+                if (result == null || result > Int32.MaxValue || result < Int32.MinValue)
                 {
-                    return -1;
+                    return null;
                 }
 
 
-                
             }
 
             return result;
         }
 
 
-        private int performArithmeticTwoNums(int num1, int num2, char symbol)
+        private int? performArithmeticTwoNums(int? num1, int? num2, char symbol)
         {
             if (symbol == '+')
             {
-
+                Console.WriteLine(num1 + "+" + num2 + "=" + (num1 + num2));
                 return num1 + num2;
             }
 
-            else if (symbol == '-')
-            {
-                return num1 - num2;
-            }
 
             else if (symbol == 'x')
             {
+                Console.WriteLine(num1 + "x" + num2 + "=" + num1 * num2);
                 return num1 * num2;
             }
 
-            else if (symbol == '/')
-            {
-                if (num2 == 0)
+            else if (symbol == '/') 
+            { 
+
+                if (num2 == 0) // Zero division error
                 {
-                    return -1;
+                    return null;
                 }
+
+                Console.WriteLine(num1 + "/" + num2 + "=" + num1 / num2);
 
                 return num1 / num2;
             }
 
-            return -1;
+            return null;
         }
 
 
