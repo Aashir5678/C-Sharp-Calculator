@@ -49,7 +49,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F);
+            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 30F);
             this.textBox1.Location = new System.Drawing.Point(31, 27);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";

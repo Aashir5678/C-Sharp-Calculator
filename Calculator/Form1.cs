@@ -325,56 +325,129 @@ namespace Calculator
 
         }
 
+        
+
         private int? calculate(String input)
         {
 
             parseCalculations(input);
 
-            //foreach (int i in nums)
-            //{
-            //    Console.WriteLine(i);
-            //}
-            //foreach (char c in symbols)
-            //{
-            //    Console.WriteLine(c);
-            //}
+            foreach (int i in nums)
+            {
+                Console.WriteLine(i);
+            }
+            foreach (char c in symbols)
+            {
+                Console.WriteLine(c);
+            }
 
 
-            if (nums.ToArray().Length == 2)
+            if (nums.Count == 2)
             {
                 return performArithmeticTwoNums(nums[0], nums[1], symbols[0]);
             }
 
-            int index = 0;
+            int nums_index = 0;
             int num;
             int? result = 0;
-            
+            char symbol;
 
-            foreach (char c in symbols)
+            int arithmetic_index = 0; // Index in SYMBOLS, keeps track of the index of the priority operator according to BEDMAS
+            int current_arithmetic_index = 0; // Index in symbols list
+
+            while (nums.Count != 1)
             {
-                num = nums[index];
 
-                if (index == 0)
+                symbol = symbols[current_arithmetic_index];
+                num = nums[nums_index];
+
+                if (symbol == SYMBOLS[arithmetic_index]) // If current operator is the priority
                 {
-                    result += performArithmeticTwoNums(num, nums[index+1], c);
-                    index += 2;
+
+                    result = performArithmeticTwoNums(num, nums[nums_index + 1], symbol);
+
+
+                    if (result == null || result > Int32.MaxValue || result < Int32.MinValue)
+                    {
+                        return null;
+                    }
+
+                    nums.RemoveAt(nums_index);
+                    nums.RemoveAt(nums_index);
+                    symbols.Remove(symbol);
+                    
+                    nums.Insert(0, (int) result);
+
+                    current_arithmetic_index = 0;
+                    nums_index = 0;
+
                 }
 
                 else
                 {
-                    result = performArithmeticTwoNums(result, num, c);
-                    index++;
+                    current_arithmetic_index++;
+
+                    if (current_arithmetic_index > symbols.Count - 1) // If the search for the prioritized symbol fails, then move on to the next highest operator
+                    {
+                        arithmetic_index++;
+                        current_arithmetic_index = 0;
+                        
+                    }
+
+                    else
+                    {
+                        nums_index++;
+
+                        if (nums_index > nums.Count - 2) // If the nums_index doesn't allow for itself and the next numbered to be used, then reset the index
+                        {
+                            nums_index = 0;
+                        }
+                    }
                 }
 
-                
-
-                if (result == null || result > Int32.MaxValue || result < Int32.MinValue)
+                if (nums.Count == 2)
                 {
-                    return null;
-                }
 
+                    result = performArithmeticTwoNums(nums[0], nums[1], symbols[0]);
+                    if (result == null || result > Int32.MaxValue || result < Int32.MinValue)
+                    {
+                        return null;
+                    }
+
+                    nums.Clear();
+                    nums.Add((int)result);
+
+
+                }
 
             }
+
+
+            //foreach (char c in symbols)
+            //{
+            //    num = nums[index];
+
+            //    if (index == 0)
+            //    {
+            //        result += performArithmeticTwoNums(num, nums[index + 1], c);
+            //        index += 2;
+            //    }
+
+            //    else
+            //    {
+            //        result = performArithmeticTwoNums(result, num, c);
+            //        index++;
+            //    }
+
+
+
+            //    if (result == null || result > Int32.MaxValue || result < Int32.MinValue)
+            //    {
+            //        return null;
+            //    }
+
+
+            //}
 
             return result;
         }
